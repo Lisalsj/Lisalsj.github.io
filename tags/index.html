@@ -45,8 +45,8 @@
 <meta property="og:description" content="Personal records">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
-<meta property="article:published_time" content="2022-11-28T07:07:26.750Z">
-<meta property="article:modified_time" content="2022-11-28T07:07:26.750Z">
+<meta property="article:published_time" content="2022-11-28T07:20:59.982Z">
+<meta property="article:modified_time" content="2022-11-28T07:20:59.982Z">
 <meta property="article:author" content="Sijia Li">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
@@ -1876,7 +1876,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     debug: "env",
     cdn: {"js":{"app":"/js/app.js","parallax":"/js/plugins/parallax.js","rightMenu":"/js/plugins/rightMenu.js","rightMenus":"/js/plugins/rightMenus.js","sites":"/js/plugins/tags/sites.js","friends":"/js/plugins/tags/friends.js","contributors":"/js/plugins/tags/contributors.js","search":"/js/search/hexo.js"},"css":{"style":"/css/style.css"}},
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1669619558473),
+    lastupdate: new Date(1669620068665),
     sidebar: {
       for_page: ["blogger","category","tagcloud","donate"],
       for_post: ["toc"],
@@ -3942,6 +3942,162 @@ window.matchMedia('(prefers-color-scheme: light)').addListener(darkModelListener
 <!-- pjax 标签必须存在于所有页面 否则 pjax error -->
 <pjax>
 
+        <script>
+  // https://github.com/theme-next/hexo-theme-next/blob/master/layout/_third-party/math/mathjax.swig
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = "https://unpkg.com/volantis-static@0.0.1654736714924/libs/mathjax/es5/tex-mml-chtml.js";
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    // 文章章节标题不能为 “MathJax” ，否则会报错。
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typesetPromise();
+  }
+</script>
+
+        <script>
+  // https://www.micdz.cn/article/katex-on-volantis/
+  if (typeof renderMathInElement == "undefined") {
+    volantis.css("https://unpkg.com/volantis-static@0.0.1654736714924/libs/katex/katex.min.css")
+    function pjax_katex() {
+      volantis.js("https://unpkg.com/volantis-static@0.0.1654736714924/libs/katex/contrib/auto-render.min.js").then(()=>{
+        renderMathInElement(document.body);
+      })
+    }
+    volantis.js("https://unpkg.com/volantis-static@0.0.1654736714924/libs/katex/katex.min.js").then(pjax_katex)
+    volantis.pjax.push(pjax_katex)
+  }
+</script>
+        <script>
+  volantis.layoutHelper("page-plugins",`<div id="artitalk_main"></div>`,{pjax:false}) // 外层有 pjax 标签
+</script>
+<script>
+  volantis.import.jQuery().then(()=>{
+    volantis.js("https://unpkg.com/artitalk").then(()=>{
+      new Artitalk(Object.assign({"js":"https://unpkg.com/artitalk","appId":"ogP8qj3veMh0LFpFWMPOyF0X-MdYXbMMI","appKey":"nHXLd3N3Jgh460t2iRQKWAtr"}, {}))
+    })
+  })
+</script>
+<style>
+  #artitalk_main #lazy {
+    background: transparent !important;
+  }
+</style>
+
+        <script>
+  volantis.layoutHelper("page-plugins",`<div id="bbtalk"></div>`,{pjax:false}) // 外层有 pjax 标签
+</script>
+<script>
+  volantis.import.jQuery().then(()=>{
+    volantis.js("https://unpkg.com/bbtalk@0.1.5/dist/bbtalk.min.js").then(()=>{
+      bbtalk.init(Object.assign({"js":"https://unpkg.com/bbtalk@0.1.5/dist/bbtalk.min.js","appId":"0KzOX4vC7Jsk6vzUGNeEiUaI-gzGzoHsz","appKey":"HwCiWuxfpvKiLm4teCUgTIba","serverURLs":"https://bbapi.heson10.com"}, {}))
+    })
+  })
+</script>
+
+        <script>
+  volantis.layoutHelper("page-plugins",`<div class="post-content"><div id="cf-container">与主机通讯中……</div></div>`,{pjax:false}) // 外层有 pjax 标签
+</script>
+<script type="text/javascript">
+    var fdataUser = {
+        apiurl: 'https://fcircle-api.example.com/'
+    }
+</script>
+<link rel="stylesheet" href="https://unpkg.com/volantis-static@0.0.1654736714924/libs/fcircle/fcircle.css">
+<script type="text/javascript"
+    src="https://unpkg.com/volantis-static@0.0.1654736714924/libs/fcircle/fcircle.js">
+</script>
+
+        <script>
+// https://sidecar.gitter.im/
+((window.gitter = {}).chat = {}).options = {
+  room: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+};
+volantis.js("https://sidecar.gitter.im/dist/sidecar.v1.js")
+</script>
+
+<style>
+  .gitter-chat-embed{
+    z-index: 10000;
+  }
+  .gitter-open-chat-button{
+    left: 10px;
+    right: unset;
+  }
+</style>
+
+<script>
+  // 这里是 page plugin
+  volantis.removeGitter=()=>{
+    document.querySelectorAll(".gitter-chat-embed").forEach(e=>{
+      e.remove()
+    })
+    document.querySelectorAll(".gitter-open-chat-button").forEach(e=>{
+      e.remove()
+    })
+  }
+  volantis.pjax.send(volantis.removeGitter)
+</script>
+        <style>
+  #post-body p {
+    text-indent: 2em;
+  }
+  #post-body .new-meta-box p,
+  #post-body .note p,
+  #post-body .prev-next p,
+  #post-body .tag p,
+  #post-body blockquote p,
+  #post-body details p,
+  #post-body p.p,
+  #post-body .tab-pane .checkbox
+  #post-body section p {
+    text-indent: initial;
+  }
+</style>
+
+      
+
+
+
 </pjax>
 
 <script>
@@ -4073,7 +4229,7 @@ window.matchMedia('(prefers-color-scheme: light)').addListener(darkModelListener
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"Lisalsj_blog","url":"http://example.com/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"Sijia Li","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://example.com/","sameAs":["https://github.com/volantis-x"],"description":"Personal records"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"http://example.com/","name":"Lisalsj_blog"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"Lisalsj_blog","url":"http://example.com/","keywords":null,"description":"Personal records","author":{"@type":"Person","name":"Sijia Li","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://example.com/","description":"Personal records"},"publisher":{"@type":"Organization","name":"Lisalsj_blog","url":"http://example.com/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"http://example.com?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"所有标签","description":"Personal records","inLanguage":["zh-CN","en","zh-TW","default"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/tags/index.html"},"author":{"@type":"Person","name":"Sijia Li","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://example.com/"},"publisher":{"@type":"Organization","name":"Lisalsj_blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"http://example.com/tags/index.html","wordCount":0,"datePublished":"2022-11-28T07:07:26.750Z","dateModified":"2022-11-28T07:07:26.750Z","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"Lisalsj_blog","url":"http://example.com/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"Sijia Li","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://example.com/","sameAs":["https://github.com/volantis-x"],"description":"Personal records"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"http://example.com/","name":"Lisalsj_blog"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"Lisalsj_blog","url":"http://example.com/","keywords":null,"description":"Personal records","author":{"@type":"Person","name":"Sijia Li","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://example.com/","description":"Personal records"},"publisher":{"@type":"Organization","name":"Lisalsj_blog","url":"http://example.com/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"http://example.com?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"所有标签","description":"Personal records","inLanguage":["zh-CN","en","zh-TW","default"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/tags/index.html"},"author":{"@type":"Person","name":"Sijia Li","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://example.com/"},"publisher":{"@type":"Organization","name":"Lisalsj_blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"http://example.com/tags/index.html","wordCount":0,"datePublished":"2022-11-28T07:20:59.982Z","dateModified":"2022-11-28T07:20:59.982Z","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
